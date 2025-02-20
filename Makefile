@@ -12,7 +12,7 @@ NAMEFILE = "test"
 all: prepare $(BINDIR)/$(FILE)
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJDIR) $(BINDIR) || true
 
 prepare:
 	mkdir -p $(OBJDIR) $(BINDIR)
