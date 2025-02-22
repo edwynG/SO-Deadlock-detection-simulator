@@ -17,13 +17,12 @@ void getArguments(int argc, char *argv[])
     {
         filePath = argv[3]; // Obtiene el nombre del archivo
         printf("El nombre del archivo es: %s\n", filePath);
+        return;
     }
-    else
-    {
-        // Si los argumentos no son válidos, imprime el formato correcto y termina el programa
-        fprintf(stderr, "Error: Formato incorrecto.\nFormato correcto: ./deteccion -m d <nombre del archivo>\n");
-        exit(EXIT_FAILURE);
-    }
+
+    // Si los argumentos no son válidos, imprime el formato correcto y termina el programa
+    fprintf(stderr, "Error: Formato incorrecto.\nFormato correcto: %s -m d <nombre del archivo>\n", argv[0]);
+    exit(EXIT_FAILURE);
 }
 
 int main(int argc, char *argv[])
@@ -32,7 +31,7 @@ int main(int argc, char *argv[])
     // carga datos del sistemas desde un archivo
     System *system = initializeSystem();
     loadSystemFromFile(system, filePath);
-    printSystem(system);    // Imprime el sistema
-    freeUpMemory(system);   // Libera recursos
+    printSystem(system);  // Imprime el sistema
+    freeUpMemory(system); // Libera recursos
     return 0;
 }

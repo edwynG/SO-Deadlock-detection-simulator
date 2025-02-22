@@ -6,7 +6,7 @@ CFLAGS = -Wall -I ./include  # Agrega el directorio de las cabeceras
 SOURCE = $(wildcard $(SRCDIR)/*.c) # Lista de achivos fuentes
 OBJ = $(SOURCE:$(SRCDIR)/%.c=$(OBJDIR)/%.o) # Aplica un map en SOURCE y crea archivos objetos
 
-FILE = deteccion
+FILE = prevencion
 NAMEFILE = "test"
 
 all: prepare $(BINDIR)/$(FILE)
