@@ -19,9 +19,11 @@ void printSystem(System *system)
         printf("%d ", system->availableResources[i]);
     }
     printf("\nNumero procesos: %d\n", system->numberProcesses);
+
     for (int i = 0; i < system->numberProcesses; i++)
     {
         printf("Process %d:\n", i);
+        printf("Estado: %c\n", system->processes[i].state);
         printf("  Recursos asignados: ");
         for (int j = 0; j < system->numberResources; j++)
         {

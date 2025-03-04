@@ -6,6 +6,7 @@ typedef struct {
     int *allocatedResources;    // vector de recursos asignados
     int *requiredResources;     // vector de recursos necesarios para la ejecucion
     int priority;               // Prioridad del proceso
+    char state;                 // 'a' activo | 't' terminado | 'f' finalizado  
 } Process;
 
 #endif

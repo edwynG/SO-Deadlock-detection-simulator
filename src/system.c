@@ -66,6 +66,7 @@ void loadSystemFromFile(System *system, char *pathFile)
 
         // Leer prioridad
         fscanf(file, "%d", &system->processes[i].priority);
+        system->processes[i].state = 'a'; // Inicializa el estado del proceso como activo
     }
 
     fclose(file);
