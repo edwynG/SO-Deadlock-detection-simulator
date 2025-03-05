@@ -54,7 +54,7 @@ void loadSystemFromFile(System *system, char *pathFile)
         {
             fscanf(file, "%d", &system->processes[i].allocatedResources[j]);
         }
-        fgetc(file); // lee el pipe("|") para omitirlo
+        fscanf(file, " |"); // lee el pipe("|") para omitirlo
 
         // Leer recursos necesarios
         for (int j = 0; j < system->numberResources; j++)
@@ -62,7 +62,7 @@ void loadSystemFromFile(System *system, char *pathFile)
             fscanf(file, "%d", &system->processes[i].requiredResources[j]);
         }
 
-        fgetc(file); // lee el pipe("|") para omitirlo
+        fscanf(file, " |"); // lee el pipe("|") para omitirlo
 
         // Leer prioridad
         fscanf(file, "%d", &system->processes[i].priority);
