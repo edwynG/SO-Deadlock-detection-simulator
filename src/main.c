@@ -2,10 +2,17 @@
 #include <string.h>
 #include <stdlib.h>
 #include "system.h"
+#include "deadlock.h"
 #include "utils.h"
 
 // Variable global para almacenar la ruta del archivo
 char *filePath = NULL;
+
+void startSimulation(System* system){
+    State* state = getState(system);
+    printSystem(system);  // Imprime el sistema
+    printState(state);    // Imprimer estado del sistema
+}
 
 // Obtiene los argumentos de la linea de comandos y los valida para que sean correctos
 // @param argc Cantidad de argumentos
@@ -31,7 +38,7 @@ int main(int argc, char *argv[])
     // carga datos del sistemas desde un archivo
     System *system = initializeSystem();
     loadSystemFromFile(system, filePath);
-    printSystem(system);  // Imprime el sistema
+    startSimulation(system);
     freeUpMemory(system); // Libera recursos
     return 0;
 }

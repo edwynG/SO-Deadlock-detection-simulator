@@ -1,5 +1,4 @@
 #include "process.h"
-
 // Cabeceras de las funciones y estructuras del sistema
 #ifndef SYSTEM_H
 #define SYSTEM_H
