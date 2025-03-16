@@ -113,6 +113,7 @@ void simulationResourcesRequest(System* system){
     printState(state);    // Imprime estado del sistema
 
     // Simulacion
+    
     for (int i = 0; i < state->numberProcesses; i++)
     {
         // Need[i][] > Resources
@@ -138,6 +139,7 @@ void simulationResourcesRequest(System* system){
         // Simular asignacion de recursos, actualizar estado del sistema
         else
         {
+            printf("--- process ---- %d\n", i);
             // Available = Available - Request[i][]
             getDiffOfVectors(state->availableResources, state->availableResources, state->neededResources[i], state->numberResources); // Asignar recursos
             // Allocation[i][] = Allocation[i][] + Request[i][]

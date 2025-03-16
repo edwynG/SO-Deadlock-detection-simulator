@@ -124,7 +124,11 @@ void getDiffOfVectors(int *vectorDiff, int *vectorA, int *vectorB, int n)
 {
     for (int i = 0; i < n; i++)
     {
+        printf("index %d\n", i);
+        printf("vectorA %d\n", vectorA[i]);
+        printf("vectorB %d\n", vectorB[i]);
         vectorDiff[i] = vectorA[i] - vectorB[i];
+        printf("vectorDiff %d\n", vectorDiff[i]);
     }
 }
 

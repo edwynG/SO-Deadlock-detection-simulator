@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 #include "deadlock.h"
 #include "utils.h"
@@ -32,7 +33,6 @@ State *getState(System *system)
 
 int findProcess(int *finish, int **neededResources, int **allocatedResources, int *work, int n)
 {
-    
     for (int i = 0; i < n; i++)
     {
         int *diff = (int *)malloc(n * sizeof(int)); // Diff
