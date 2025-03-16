@@ -99,3 +99,41 @@ void printState(State *state)
     // Imprimir la matriz de necesidad
     printMatrix("Matriz de Necesidad", state->neededResources, state->numberProcesses, state->numberResources);
 }
+
+int isLessThanVector(int *vectorA, int *vectorB, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if(vectorA[i] >= vectorB[i])
+        {
+            return 0;
+        }
+    }
+    return 1; // vectorA[i] < vectorB[i] para todo i
+}
+
+void getSumOfVectors(int *vectorSum, int *vectorA, int *vectorB, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        vectorSum[i] = vectorA[i] + vectorB[i];
+    }
+}
+
+void getDiffOfVectors(int *vectorDiff, int *vectorA, int *vectorB, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        vectorDiff[i] = vectorA[i] - vectorB[i];
+    }
+}
+
+int getSumOfRow(int *vector, int n)
+{
+    int sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum += vector[i];
+    }
+    return sum;
+}

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "system.h"
 #include "deadlock.h"
+#include "utils.h"
 
 void loadSystemFromFile(System *system, char *pathFile)
 {
@@ -109,22 +110,53 @@ void freeUpMemory(System *system)
 void simulationResourcesRequest(System* system){
     State* state = getState(system);
     printSystem(system);  // Imprime el sistema
-    printState(state);    // Imprimer estado del sistema
-    isStateSafe(state);
+    printState(state);    // Imprime estado del sistema
 
-    // if Request[i][] > Need[i][]:
-    //     error()
-    // elif Request[i][] > Work:
-    //     suspenderProceso()
-    // else: 
-    //     # Simulacion
-    //     nuevoEstado = {
-    //             Work = Work - Request[i][] # Asignar recursos
-    //             Allocation[i][] = Allocation[i][] + Request[i][]
-    //     }
-    // if esSeguro(nuevoEstado):
-    //         asignacionReal()
-    // else:
-    //         restaurarEstadoOriginal()
-    //         suspenderProceso()
+    // Simulacion
+    for (int i = 0; i < state->numberProcesses; i++)
+    {
+        // Need[i][] > Resources
+        if (isLessThanVector(state->totalResources, state->neededResources[i], state->numberResources))
+        {
+            fprintf(stderr, "Error: Necesidad no puede exceder el numero total de recursos del sistema.\n"); // Indica mensaje de error
+        }
+        
+        int *sum = (int *)malloc(state->numberResources * sizeof(int)); // Sum
+        getSumOfVectors(sum, state->allocatedResources[i], state->neededResources[i], state->numberResources); // Sum = Allocation[i][] + Request[i][]
+        
+        // Sum > Need[i][]
+        if (isLessThanVector(state->neededResources[i], sum, state->numberResources))
+        {
+            fprintf(stderr, "Error: Proceso ha excedido cantidad maxima de recursos que habia declarado.\n"); // Indica mensaje de error
+        }
+        // Request[i][] > Available
+        else if (isLessThanVector(state->availableResources, state->neededResources[i], state->numberResources))
+        {
+            // Proceso tiene que esperar dado que los recursos no estan disponibles
+            // suspenderProceso() 
+        }
+        // Simular asignacion de recursos, actualizar estado del sistema
+        else
+        {
+            // Available = Available - Request[i][]
+            getDiffOfVectors(state->availableResources[i], state->availableResources[i], state->neededResources[i], state->numberResources); // Asignar recursos
+            // Allocation[i][] = Allocation[i][] + Request[i][]
+            getSumOfVectors(state->allocatedResources[i], state->availableResources[i], state->neededResources[i], state->numberResources); // Asignar recursos
+
+            if (isStateSafe(state))
+            {
+                // Asigar recursos a P_i
+                // asignacionReal()
+            }
+            else
+            {
+                // Bloquear P_i 
+			    // P_i debe esperar a que se le asignen los recursos Request[i][] 
+			    // Restaurar antiguo estado de asignacion de recursos
+			    // suspenderProceso()
+			    // restaurarEstadoOriginal()
+            }
+        }
+    }
+    isStateSafe(state);
 }

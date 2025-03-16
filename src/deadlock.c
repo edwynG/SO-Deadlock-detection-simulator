@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "deadlock.h"
+#include "utils.h"
 
 State *getState(System *system)
 {
@@ -36,7 +37,8 @@ int isStateSafe(State *state)
 
     int *finish = (int *)malloc(state->numberProcesses * sizeof(int));
 
-    for (int i = 0; i < state->numberProcesses; i++){
+    for (int i = 0; i < state->numberProcesses; i++)
+    {
         if (getSumOfRow(state->allocatedResources[i], state->numberResources) != 0){
             finish[i] = 0;
         }
@@ -45,11 +47,12 @@ int isStateSafe(State *state)
     int posible = 1;
     while (posible)
     {
-        int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, state->numberProcesses, work);
+        int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, state->numberResources, work);
         if(foundProcess >= 0)
         {
-            // Ejecutar
-            getSumOfVectors(work, state->allocatedResources[foundProcess], state->numberResources); // Liberar recursos
+            // Work = Work + Allocation[i][]
+            getSumOfVectors(work, work, state->allocatedResources[foundProcess], state->numberResources); // Liberar recursos
+            // Finish[i] = false
             finish[foundProcess] = 1; // Finalizar proceso
         }
         else
@@ -73,49 +76,13 @@ int findProcess(int *finish, int **neededResources, int **allocatedResources, in
     
     for (int i = 0; i < n; i++)
     {
-        int *diff = (int *)malloc(n * sizeof(int)); 
-        getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Need[i][] - Allocation[i][]
+        int *diff = (int *)malloc(n * sizeof(int)); // Diff
+        getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Diff = Need[i][] - Allocation[i][]
 
-        if(finish[i] == 0 && isLessVector(diff, work, n)) // Diff <= Work
+        if(finish[i] == 0 && isLessThanVector(diff, work, n)) // Diff <= Work
         {
             return i;
         }
     }
     return -1;
-}
-
-int isLessVector(int *vectorA, int *vectorB, int n)
-{
-    for (int i = 0; i < n; i++)
-    {
-        if(vectorA[i] >= vectorB[i])
-        {
-            return 0;
-        }
-    }
-    return 1; // vectorA[i] < vectorB[i] para todo i
-}
-
-void getSumOfVectors(int *vectorA, int *vectorB, int n){
-    for (int i = 0; i < n; i++)
-    {
-        vectorA[i] += vectorB[i];
-    }
-}
-
-void getDiffOfVectors(int *vectorR, int *vectorA, int *vectorB, int n){
-    for (int i = 0; i < n; i++)
-    {
-        vectorR[i] = vectorA[i] - vectorB[i];
-    }
-}
-
-int getSumOfRow(int *vector, int n)
-{
-    int sum = 0;
-    for (int i = 0; i < n; i++)
-    {
-        sum += vector[i];
-    }
-    return sum;
 }

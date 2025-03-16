@@ -13,19 +13,21 @@ typedef struct {
     int *availableResources;    // Vector de recursos disponibles
 } System;
 
-// Funcion para cargar un sistema desde un archivo
+// Función para cargar un sistema desde un archivo
 // @param system Puntero a la estructura de un sistema
 // @param pathFile Ruta del archivo a cargar
 void loadSystemFromFile(System *system,char *pathFile);
 
-// Funcion para inicializar un sistema
+// Función para inicializar un sistema
 // @return Puntero aun sistama inicializado
 System* initializeSystem();
 
-// Funcion para liberar los recursos reservados por un sistema
+// Función para liberar los recursos reservados por un sistema
 // @param system Puntero a la estructura de un sistema
 void freeUpMemory(System *system);
 
+// Función para simular que un proceso hace una solicitud de recursos
+// @param system Puntero a la estructura de un sistema
 void simulationResourcesRequest(System* system);
 
 #endif
