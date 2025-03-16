@@ -25,7 +25,7 @@ State *getState(System *system)
     for (int i = 0; i < system->numberProcesses; i++)
     {
         currentState->allocatedResources[i] = system->processes[i].allocatedResources;
-        currentState->neededResources[i] = system->processes[i].requestedResources;
+        currentState->neededResources[i] = system->processes[i].neededResources;
     }
 
     return currentState;
@@ -37,8 +37,7 @@ int findProcess(int *finish, int **neededResources, int **allocatedResources, in
     {
         int *diff = (int *)malloc(n * sizeof(int)); // Diff
         getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Diff = Need[i][] - Allocation[i][]
-
-        if(finish[i] == 0 && isLessThanVector(diff, work, n)) // Diff <= Work
+        if(finish[i] == 0 && isLessEqualThanVector(diff, work, n)) // Diff <= Work
         {
             return i;
         }
@@ -53,6 +52,7 @@ int isStateSafe(State *state)
 
     int *finish = (int *)malloc(state->numberProcesses * sizeof(int));
 
+    // No finalizados
     for (int i = 0; i < state->numberProcesses; i++)
     {
         if (getSumOfRow(state->allocatedResources[i], state->numberResources) != 0){
@@ -66,9 +66,8 @@ int isStateSafe(State *state)
         int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, work, state->numberResources);
         if(foundProcess >= 0)
         {
-            // Work = Work + Allocation[i][]
-            getSumOfVectors(work, work, state->allocatedResources[foundProcess], state->numberResources); // Liberar recursos
-            // Finish[i] = false
+            
+            getSumOfVectors(work, work, state->allocatedResources[foundProcess], state->numberResources); // Work = Work + Allocation[i][]
             finish[foundProcess] = 1; // Finalizar proceso
         }
         else

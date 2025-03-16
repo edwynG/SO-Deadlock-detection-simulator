@@ -34,7 +34,7 @@ void printSystem(System *system)
         printf("\n  Recursos necesarios: ");
         for (int j = 0; j < system->numberResources; j++)
         {
-            printf("%d ", system->processes[i].requestedResources[j]);
+            printf("%d ", system->processes[i].neededResources[j]);
         }
         printf("\n  Prioridad: %d\n", system->processes[i].priority);
     }
@@ -100,11 +100,11 @@ void printState(State *state)
     printMatrix("Matriz de Necesidad", state->neededResources, state->numberProcesses, state->numberResources);
 }
 
-int isLessThanVector(int *vectorA, int *vectorB, int n)
+int isLessEqualThanVector(int *vectorA, int *vectorB, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        if(vectorA[i] >= vectorB[i])
+        if(vectorA[i] > vectorB[i])
         {
             return 0;
         }
@@ -124,11 +124,7 @@ void getDiffOfVectors(int *vectorDiff, int *vectorA, int *vectorB, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        printf("index %d\n", i);
-        printf("vectorA %d\n", vectorA[i]);
-        printf("vectorB %d\n", vectorB[i]);
         vectorDiff[i] = vectorA[i] - vectorB[i];
-        printf("vectorDiff %d\n", vectorDiff[i]);
     }
 }
 
