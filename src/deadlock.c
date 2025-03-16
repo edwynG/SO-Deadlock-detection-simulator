@@ -12,18 +12,18 @@ State *getState(System *system)
         exit(EXIT_FAILURE);
     }
 
-    currentState->totalResourcesVector = system->totalResources;
-    currentState->availableResourcesVector = system->availableResources;
+    currentState->totalResources = system->totalResources;
+    currentState->availableResources = system->availableResources;
     currentState->numberProcesses = system->numberProcesses;
     currentState->numberResources = system->numberResources;
 
-    currentState->allocationMatrix = (int **)malloc(system->numberProcesses * sizeof(int *));
-    currentState->needMatrix = (int **)malloc(system->numberProcesses * sizeof(int *));
+    currentState->allocatedResources = (int **)malloc(system->numberProcesses * sizeof(int *));
+    currentState->neededResources = (int **)malloc(system->numberProcesses * sizeof(int *));
 
     for (int i = 0; i < system->numberProcesses; i++)
     {
-        currentState->allocationMatrix[i] = system->processes[i].allocatedResources;
-        currentState->needMatrix[i] = system->processes[i].requiredResources;
+        currentState->allocatedResources[i] = system->processes[i].allocatedResources;
+        currentState->neededResources[i] = system->processes[i].requestedResources;
     }
 
     return currentState;
@@ -31,11 +31,11 @@ State *getState(System *system)
 
 int isStateSafe(State *state)
 {
-    int *work = state->availableResourcesVector;
+    int *work = state->availableResources;
     int *finish = (int *)malloc(state->numberProcesses * sizeof(int));
 
     for (int i = 0; i < state->numberProcesses; i++){
-        if (getSumOfRow(state->allocationMatrix[i], state->numberResources) != 0){
+        if (getSumOfRow(state->allocatedResources[i], state->numberResources) != 0){
             finish[i] = 0;
         }
     }
@@ -43,9 +43,9 @@ int isStateSafe(State *state)
     for (int i = 0; i < state->numberProcesses; i++)
     {
         
-        if (finish[i] == 0 && getSumOfRow(state->request[i], state->numberResources) - getSumOfRow(state->allocationMatrix[i], state->numberResources) < getSumOfRow(work)) // Ejecutar
+        if (finish[i] == 0 && getSumOfRow(state->request[i], state->numberResources) - getSumOfRow(state->allocatedResources[i], state->numberResources) < getSumOfRow(work)) // Ejecutar
         { 
-            freeResources(work, state->allocationMatrix[i], state->numberResources); // Liberar recursos
+            freeResources(work, state->allocatedResources[i], state->numberResources); // Liberar recursos
             emptyRequests(state->request[i], state->numberResources); // Eliminar aristas de solicitud
             finish[i] = 1;
         }
@@ -60,10 +60,10 @@ int isStateSafe(State *state)
     return 1;
 }
 
-void freeResources(int *work, int *allocationMatrix, int n){
+void freeResources(int *work, int *allocatedResources, int n){
     for (int i = 0; i < n; i++)
     {
-        work[i] += allocationMatrix[i];
+        work[i] += allocatedResources[i];
     }
 }
 

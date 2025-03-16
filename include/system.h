@@ -1,7 +1,8 @@
 #include "process.h"
-// Cabeceras de las funciones y estructuras del sistema
 #ifndef SYSTEM_H
 #define SYSTEM_H
+
+// Cabeceras de las funciones y estructuras del sistema
 
 // Estructura para representar el sistema
 typedef struct {

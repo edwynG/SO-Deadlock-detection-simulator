@@ -48,7 +48,7 @@ void loadSystemFromFile(System *system, char *pathFile)
     for (int i = 0; i < system->numberProcesses; i++)
     {
         system->processes[i].allocatedResources = (int *)malloc(system->numberResources * sizeof(int));
-        system->processes[i].requiredResources = (int *)malloc(system->numberResources * sizeof(int));
+        system->processes[i].requestedResources = (int *)malloc(system->numberResources * sizeof(int));
 
         // Leer recursos asignados
         for (int j = 0; j < system->numberResources; j++)
@@ -60,7 +60,7 @@ void loadSystemFromFile(System *system, char *pathFile)
         // Leer recursos necesarios
         for (int j = 0; j < system->numberResources; j++)
         {
-            fscanf(file, "%d", &system->processes[i].requiredResources[j]);
+            fscanf(file, "%d", &system->processes[i].requestedResources[j]);
         }
 
         fscanf(file, " |"); // lee el pipe("|") para omitirlo
@@ -99,7 +99,7 @@ void freeUpMemory(System *system)
     for (int i = 0; i < system->numberProcesses; i++)
     {
         free(system->processes[i].allocatedResources);
-        free(system->processes[i].requiredResources);
+        free(system->processes[i].requestedResources);
     }
     free(system->processes);
     free(system->totalResources);

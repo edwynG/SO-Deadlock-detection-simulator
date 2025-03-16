@@ -34,7 +34,7 @@ void printSystem(System *system)
         printf("\n  Recursos necesarios: ");
         for (int j = 0; j < system->numberResources; j++)
         {
-            printf("%d ", system->processes[i].requiredResources[j]);
+            printf("%d ", system->processes[i].requestedResources[j]);
         }
         printf("\n  Prioridad: %d\n", system->processes[i].priority);
     }
@@ -87,15 +87,15 @@ void printState(State *state)
     }
     printf("Estado del sistema:\n");
     // Imprimir el vector de recursos totales
-    printVector("Vector de Recursos Totales", state->totalResourcesVector, state->numberResources);
+    printVector("Vector de Recursos Totales", state->totalResources, state->numberResources);
 
     // Imprimir el vector de recursos disponibles
-    printVector("Vector de Recursos Disponibles", state->availableResourcesVector, state->numberResources);
+    printVector("Vector de Recursos Disponibles", state->availableResources, state->numberResources);
 
     printf("\n");
     // Imprimir la matriz de asignación
-    printMatrix("Matriz de Asignación", state->allocationMatrix, state->numberProcesses, state->numberResources);
+    printMatrix("Matriz de Asignación", state->allocatedResources, state->numberProcesses, state->numberResources);
 
     // Imprimir la matriz de necesidad
-    printMatrix("Matriz de Necesidad", state->needMatrix, state->numberProcesses, state->numberResources);
+    printMatrix("Matriz de Necesidad", state->neededResources, state->numberProcesses, state->numberResources);
 }

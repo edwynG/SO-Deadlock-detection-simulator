@@ -1,17 +1,18 @@
 #include "system.h"
-// Cabeceras para las funciones y estructuras relaciondas con la prevención de interbloqueo
 #ifndef DEADLOCK
 #define DEADLOCK
+
+// Cabeceras para las funciones y estructuras relaciondas con la prevención de interbloqueo
 
 // Estructura para representar el estado del sistema forma de vectores y matrices
 typedef struct
 {
     int numberProcesses;    // Cantidad de procesos
     int numberResources;    // Cantidad de recursos
-    int *totalResourcesVector;   // Vector de recursos totales
-    int *availableResourcesVector;   // Vector de recursos disponibles
-    int **needMatrix;       // Matriz de necesidad
-    int **allocationMatrix; // Matriz de asignacion
+    int *totalResources;   // Vector de recursos totales
+    int *availableResources;   // Vector de recursos disponibles
+    int **neededResources;       // Matriz de necesidad (cantidad máxima de un recurso que cada proceso pueda necesitar)
+    int **allocatedResources; // Matriz de asignacion
 } State;
 
 // Funcion para obtener referencia del estado actual del sistema en forma de matrices y vectores

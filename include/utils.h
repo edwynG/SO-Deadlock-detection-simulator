@@ -1,7 +1,8 @@
 #include "system.h"
-// Cabeceras de las funciones y estructuras de utilidades
 #ifndef UTILS_H
 #define UTILS_H
+
+// Cabeceras de las funciones y estructuras de utilidades
 
 // Función para imprimir el sistema
 void printSystem(System *system);
