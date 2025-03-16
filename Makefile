@@ -7,7 +7,7 @@ SOURCE = $(wildcard $(SRCDIR)/*.c) # Lista de achivos fuentes
 OBJ = $(SOURCE:$(SRCDIR)/%.c=$(OBJDIR)/%.o) # Aplica un map en SOURCE y crea archivos objetos
 
 FILE = prevencion
-NAMEFILE = tests/caso_1
+NAMEFILE = "tests/caso_1.txt"
 
 all: prepare $(BINDIR)/$(FILE)
 
@@ -24,6 +24,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	gcc $(CFLAGS) -c $< -o $@
 
 execute: $(BINDIR)/$(FILE)
-	./$(BINDIR)/$(FILE) $(NAMEFILE)
+	./$(BINDIR)/$(FILE) -m d $(NAMEFILE)
  
-# Ejecutar: ./bin/prevencion <nombre del archivo>
+# Ejecutar: ./bin/prevencion -m d <nombre del archivo>

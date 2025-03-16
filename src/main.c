@@ -15,16 +15,16 @@ char *filePath = NULL;
 void getArguments(int argc, char *argv[])
 {
     // Verifica que los argumentos sean correctos
-    // if (argc == 4 && strcmp(argv[1], "-m") == 0 && strcmp(argv[2], "d") == 0)
-    // {
+    if (argc == 4 && strcmp(argv[1], "-m") == 0 && strcmp(argv[2], "d") == 0)
+    {
         filePath = argv[3]; // Obtiene el nombre del archivo
         printf("El nombre del archivo es: %s\n", filePath);
         return;
-    // }
+    }
 
-    // // Si los argumentos no son válidos, imprime el formato correcto y termina el programa
-    // fprintf(stderr, "Error: Formato incorrecto.\nFormato correcto: %s -m d <nombre del archivo>\n", argv[0]);
-    // exit(EXIT_FAILURE);
+    // Si los argumentos no son válidos, imprime el formato correcto y termina el programa
+    fprintf(stderr, "Error: Formato incorrecto.\nFormato correcto: %s -m d <nombre del archivo>\n", argv[0]);
+    exit(EXIT_FAILURE);
 }
 
 int main(int argc, char *argv[])
