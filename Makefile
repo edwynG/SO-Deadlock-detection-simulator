@@ -6,13 +6,13 @@ CFLAGS = -Wall -I ./include  # Agrega el directorio de las cabeceras
 SOURCE = $(wildcard $(SRCDIR)/*.c) # Lista de achivos fuentes
 OBJ = $(SOURCE:$(SRCDIR)/%.c=$(OBJDIR)/%.o) # Aplica un map en SOURCE y crea archivos objetos
 
-FILE = deteccion
-NAMEFILE = "test"
+FILE = prevencion
+NAMEFILE = "tests/caso_1.txt"
 
 all: prepare $(BINDIR)/$(FILE)
 
 clean:
-	rm -rf $(OBJDIR) $(BINDIR)
+	rm -rf $(OBJDIR) $(BINDIR) || true
 
 prepare:
 	mkdir -p $(OBJDIR) $(BINDIR)
@@ -26,4 +26,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 execute: $(BINDIR)/$(FILE)
 	./$(BINDIR)/$(FILE) -m d $(NAMEFILE)
  
-# Ejecutar: /deteccion –m d <nombre del archivo>
+# Ejecutar: ./bin/prevencion -m d <nombre del archivo>
