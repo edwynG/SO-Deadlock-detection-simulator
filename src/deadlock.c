@@ -31,7 +31,9 @@ State *getState(System *system)
 
 int isStateSafe(State *state)
 {
-    int *work = state->availableResources;
+    int *work = (int *)malloc(state->numberResources * sizeof(int));
+    work = state->availableResources;
+
     int *finish = (int *)malloc(state->numberProcesses * sizeof(int));
 
     for (int i = 0; i < state->numberProcesses; i++){
@@ -40,38 +42,71 @@ int isStateSafe(State *state)
         }
     }
 
-    for (int i = 0; i < state->numberProcesses; i++)
+    int posible = 1;
+    while (posible)
     {
-        
-        if (finish[i] == 0 && getSumOfRow(state->request[i], state->numberResources) - getSumOfRow(state->allocatedResources[i], state->numberResources) < getSumOfRow(work)) // Ejecutar
-        { 
-            freeResources(work, state->allocatedResources[i], state->numberResources); // Liberar recursos
-            emptyRequests(state->request[i], state->numberResources); // Eliminar aristas de solicitud
-            finish[i] = 1;
+        int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, state->numberProcesses, work);
+        if(foundProcess >= 0)
+        {
+            // Ejecutar
+            getSumOfVectors(work, state->allocatedResources[foundProcess], state->numberResources); // Liberar recursos
+            finish[foundProcess] = 1; // Finalizar proceso
+        }
+        else
+        {
+            posible = 0;
         }
     }
 
     for (int i = 0; i < state->numberProcesses; i++)
     {
-        if (finish[i] == 0)
-            return 0;
+        if (finish[i] == 0) // Proceso no finalizado
+            return 0; // Estado inseguro
     }
 
-    return 1;
+    free(work);
+    return 1; // Estado seguro
 }
 
-void freeResources(int *work, int *allocatedResources, int n){
+int findProcess(int *finish, int **neededResources, int **allocatedResources, int *work, int n)
+{
+    
     for (int i = 0; i < n; i++)
     {
-        work[i] += allocatedResources[i];
+        int *diff = (int *)malloc(n * sizeof(int)); 
+        getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Need[i][] - Allocation[i][]
+
+        if(finish[i] == 0 && isLessVector(diff, work, n)) // Diff <= Work
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+int isLessVector(int *vectorA, int *vectorB, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if(vectorA[i] >= vectorB[i])
+        {
+            return 0;
+        }
+    }
+    return 1; // vectorA[i] < vectorB[i] para todo i
+}
+
+void getSumOfVectors(int *vectorA, int *vectorB, int n){
+    for (int i = 0; i < n; i++)
+    {
+        vectorA[i] += vectorB[i];
     }
 }
 
-void emptyRequests(int *requestMatrix, int n)
-{
-    for(int j = 0; j < requestMatrix; j++)
+void getDiffOfVectors(int *vectorR, int *vectorA, int *vectorB, int n){
+    for (int i = 0; i < n; i++)
     {
-        requestMatrix[j] = 0; 
+        vectorR[i] = vectorA[i] - vectorB[i];
     }
 }
 
@@ -80,7 +115,7 @@ int getSumOfRow(int *vector, int n)
     int sum = 0;
     for (int i = 0; i < n; i++)
     {
-        sum = vector[i];
+        sum += vector[i];
     }
     return sum;
 }

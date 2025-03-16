@@ -26,6 +26,6 @@ System* initializeSystem();
 // @param system Puntero a la estructura de un sistema
 void freeUpMemory(System *system);
 
-void startSimulation(System* system);
+void simulationResourcesRequest(System* system);
 
 #endif

@@ -7,7 +7,7 @@ void loadSystemFromFile(System *system, char *pathFile)
 {
     if (system == NULL || pathFile == NULL)
     {
-        fprintf(stderr, "Error: Referencias nulas al cargar el sistema.\n"); // Inidica mensaje de error
+        fprintf(stderr, "Error: Referencias nulas al cargar el sistema.\n"); // Indica mensaje de error
         exit(EXIT_FAILURE); // Detiene el programa
     }
 
@@ -15,7 +15,7 @@ void loadSystemFromFile(System *system, char *pathFile)
     // En caso de que no se pueda abrir el archivo se detiene el programa
     if (file == NULL)
     {
-        fprintf(stderr, "Error: No se pudo abrir el archivo.\n"); // Inidica mensaje de error
+        fprintf(stderr, "Error: No se pudo abrir el archivo.\n"); // Indica mensaje de error
         exit(EXIT_FAILURE);                                     // Detiene el programa
     }
 
@@ -55,7 +55,7 @@ void loadSystemFromFile(System *system, char *pathFile)
         {
             fscanf(file, "%d", &system->processes[i].allocatedResources[j]);
         }
-        fscanf(file, " |"); // lee el pipe("|") para omitirlo
+        fscanf(file, " |"); // Lee el pipe("|") para omitirlo
 
         // Leer recursos necesarios
         for (int j = 0; j < system->numberResources; j++)
@@ -63,7 +63,7 @@ void loadSystemFromFile(System *system, char *pathFile)
             fscanf(file, "%d", &system->processes[i].requestedResources[j]);
         }
 
-        fscanf(file, " |"); // lee el pipe("|") para omitirlo
+        fscanf(file, " |"); // Lee el pipe("|") para omitirlo
 
         // Leer prioridad
         fscanf(file, "%d", &system->processes[i].priority);
@@ -106,7 +106,7 @@ void freeUpMemory(System *system)
     free(system->availableResources);
 }
 
-void startSimulation(System* system){
+void simulationResourcesRequest(System* system){
     State* state = getState(system);
     printSystem(system);  // Imprime el sistema
     printState(state);    // Imprimer estado del sistema

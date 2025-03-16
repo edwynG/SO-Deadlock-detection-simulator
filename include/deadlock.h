@@ -11,8 +11,8 @@ typedef struct
     int numberResources;    // Cantidad de recursos
     int *totalResources;   // Vector de recursos totales
     int *availableResources;   // Vector de recursos disponibles
-    int **neededResources;       // Matriz de necesidad (cantidad máxima de un recurso que cada proceso pueda necesitar)
     int **allocatedResources; // Matriz de asignacion
+    int **neededResources;       // Matriz de necesidad (cantidad máxima de un recurso que cada proceso pueda necesitar)
 } State;
 
 // Funcion para obtener referencia del estado actual del sistema en forma de matrices y vectores

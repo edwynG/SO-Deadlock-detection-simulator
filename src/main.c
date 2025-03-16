@@ -34,7 +34,9 @@ int main(int argc, char *argv[])
     // Carga datos del sistemas desde un archivo
     System *system = initializeSystem();
     loadSystemFromFile(system, filePath);
-    startSimulation(system);
+
+    simulationResourcesRequest(system);
+    
     freeUpMemory(system); // Libera recursos
     return 0;
 }
