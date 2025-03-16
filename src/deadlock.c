@@ -30,6 +30,22 @@ State *getState(System *system)
     return currentState;
 }
 
+int findProcess(int *finish, int **neededResources, int **allocatedResources, int *work, int n)
+{
+    
+    for (int i = 0; i < n; i++)
+    {
+        int *diff = (int *)malloc(n * sizeof(int)); // Diff
+        getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Diff = Need[i][] - Allocation[i][]
+
+        if(finish[i] == 0 && isLessThanVector(diff, work, n)) // Diff <= Work
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
 int isStateSafe(State *state)
 {
     int *work = (int *)malloc(state->numberResources * sizeof(int));
@@ -47,7 +63,7 @@ int isStateSafe(State *state)
     int posible = 1;
     while (posible)
     {
-        int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, state->numberResources, work);
+        int foundProcess = findProcess(finish, state->neededResources, state->allocatedResources, work, state->numberResources);
         if(foundProcess >= 0)
         {
             // Work = Work + Allocation[i][]
@@ -69,20 +85,4 @@ int isStateSafe(State *state)
 
     free(work);
     return 1; // Estado seguro
-}
-
-int findProcess(int *finish, int **neededResources, int **allocatedResources, int *work, int n)
-{
-    
-    for (int i = 0; i < n; i++)
-    {
-        int *diff = (int *)malloc(n * sizeof(int)); // Diff
-        getDiffOfVectors(diff, neededResources[i], allocatedResources[i], n); // Diff = Need[i][] - Allocation[i][]
-
-        if(finish[i] == 0 && isLessThanVector(diff, work, n)) // Diff <= Work
-        {
-            return i;
-        }
-    }
-    return -1;
 }

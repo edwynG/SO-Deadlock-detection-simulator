@@ -139,9 +139,9 @@ void simulationResourcesRequest(System* system){
         else
         {
             // Available = Available - Request[i][]
-            getDiffOfVectors(state->availableResources[i], state->availableResources[i], state->neededResources[i], state->numberResources); // Asignar recursos
+            getDiffOfVectors(state->availableResources, state->availableResources, state->neededResources[i], state->numberResources); // Asignar recursos
             // Allocation[i][] = Allocation[i][] + Request[i][]
-            getSumOfVectors(state->allocatedResources[i], state->availableResources[i], state->neededResources[i], state->numberResources); // Asignar recursos
+            getSumOfVectors(state->allocatedResources[i], state->allocatedResources[i], state->neededResources[i], state->numberResources); // Asignar recursos
 
             if (isStateSafe(state))
             {
