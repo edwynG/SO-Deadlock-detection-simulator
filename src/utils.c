@@ -87,14 +87,14 @@ void printState(State *state)
     }
     printf("Estado del sistema:\n");
     // Imprimir el vector de recursos totales
-    printVector("Vector de Recursos Totales", state->resourcesVector, state->numberResources);
+    printVector("Vector de Recursos Totales", state->totalResourcesVector, state->numberResources);
 
     // Imprimir el vector de recursos disponibles
-    printVector("Vector de Recursos Disponibles", state->availableVector, state->numberResources);
+    printVector("Vector de Recursos Disponibles", state->availableResourcesVector, state->numberResources);
 
     printf("\n");
     // Imprimir la matriz de asignación
-    printMatrix("Matriz de Asignación", state->AllocationMatrix, state->numberProcesses, state->numberResources);
+    printMatrix("Matriz de Asignación", state->allocationMatrix, state->numberProcesses, state->numberResources);
 
     // Imprimir la matriz de necesidad
     printMatrix("Matriz de Necesidad", state->needMatrix, state->numberProcesses, state->numberResources);

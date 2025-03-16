@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "system.h"
+#include "deadlock.h"
 
 void loadSystemFromFile(System *system, char *pathFile)
 {
@@ -11,7 +12,7 @@ void loadSystemFromFile(System *system, char *pathFile)
     }
 
     FILE *file = fopen(pathFile, "r");
-    // En coso de que no se pueda abrir el archivo se detiene el programa
+    // En caso de que no se pueda abrir el archivo se detiene el programa
     if (file == NULL)
     {
         fprintf(stderr, "Error: No se pudo abrir el archivo.\n"); // Inidica mensaje de error
@@ -103,4 +104,27 @@ void freeUpMemory(System *system)
     free(system->processes);
     free(system->totalResources);
     free(system->availableResources);
+}
+
+void startSimulation(System* system){
+    State* state = getState(system);
+    printSystem(system);  // Imprime el sistema
+    printState(state);    // Imprimer estado del sistema
+    isStateSafe(state);
+
+    // if Request[i][] > Need[i][]:
+    //     error()
+    // elif Request[i][] > Work:
+    //     suspenderProceso()
+    // else: 
+    //     # Simulacion
+    //     nuevoEstado = {
+    //             Work = Work - Request[i][] # Asignar recursos
+    //             Allocation[i][] = Allocation[i][] + Request[i][]
+    //     }
+    // if esSeguro(nuevoEstado):
+    //         asignacionReal()
+    // else:
+    //         restaurarEstadoOriginal()
+    //         suspenderProceso()
 }

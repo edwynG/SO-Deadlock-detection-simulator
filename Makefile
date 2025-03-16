@@ -26,4 +26,4 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 execute: $(BINDIR)/$(FILE)
 	./$(BINDIR)/$(FILE) -m d $(NAMEFILE)
  
-# Ejecutar: /deteccion –m d <nombre del archivo>
+# Ejecutar: /prevencion –m d <nombre del archivo>
