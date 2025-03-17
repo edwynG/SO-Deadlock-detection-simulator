@@ -18,7 +18,6 @@ void getArguments(int argc, char *argv[])
     if (argc == 2)
     {
         filePath = argv[1]; // Obtiene el nombre del archivo
-        printf("El nombre del archivo es: %s\n", filePath);
         return;
     }
 
@@ -30,7 +29,6 @@ void getArguments(int argc, char *argv[])
 int main(int argc, char *argv[])
 {
     getArguments(argc, argv);
-
     // Carga datos del sistemas desde un archivo
     System *system = initializeSystem();
     loadSystemFromFile(system, filePath);

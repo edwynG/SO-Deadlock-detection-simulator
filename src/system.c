@@ -112,7 +112,6 @@ void freeUpMemory(System *system)
 void simulationResourcesRequest(System *system)
 {
     State *state = getState(system);
-    printState(state);
     // Este arreglo va a tener el orden de los procesos que se van a ejecutar
     int *secuence = (int *)malloc(sizeof(int) * state->numberProcesses);
     for (int i = 0; i < state->numberProcesses; i++)
@@ -121,24 +120,19 @@ void simulationResourcesRequest(System *system)
     }
     // Simulacion
     int isSafe = isStateSafe(state, secuence);
-    
-    for (int i = 0; i < state->numberProcesses; i++)
-    {
-        printf("%d\n", secuence[i]);
-    }
 
     printf("%s\n", isSafe == 1 ? "Es un estado es seguro" : "Hubo un estado inseguro");
     printf("Estado de los procesos:\n");
     for (int i = 0; i < state->numberProcesses; i++)
     {
-        if (state->processes[secuence[i]].state == 'f')
+        if (state->processes[i].state == 'f')
         {
-            printf("P%d Finalizado\n", secuence[i]);
+            printf("P%d Finalizado\n", i);
         }
 
-        if (state->processes[secuence[i]].state == 't')
+        if (state->processes[i].state == 't')
         {
-            printf("P%d Terminado\n", secuence[i]);
+            printf("P%d Terminado\n", i);
         }
     }
     printf("Orden de asignación de recursos:\n");
