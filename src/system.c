@@ -107,27 +107,27 @@ void freeUpMemory(System *system)
     free(system->availableResources);
 }
 
-void simulationResourcesRequest(System* system){
-    State* state = getState(system);
+void simulationResourcesRequest(System *system){
+    State *state = getState(system);
     printSystem(system);  // Imprime el sistema
     printState(state);    // Imprime estado del sistema
 
     // Simulacion
     for (int i = 0; i < state->numberProcesses; i++)
     {
-        printf("Simulando solicitud para el proceso %d:\n", i);
+        printf("TOFIX: Simulando solicitud para el proceso %d:\n", i);
         
         // Obtener la petición del proceso
         int *Request = (int *)malloc(state->numberResources * sizeof(int));
         getDiffOfVectors(Request, state->neededResources[i], state->allocatedResources[i], state->numberResources);
-        printVector("Petición del proceso", Request, state->numberResources);
+        printVector("TOFIX: Petición del proceso", Request, state->numberResources);
         
         // Verificar si petición del proceso excede su necesidad declarada
         int *sum = (int *)malloc(state->numberResources * sizeof(int)); // Sum
         getSumOfVectors(sum, state->allocatedResources[i], Request, state->numberResources); // Sum = Allocation[i][] + Request
         if (!isLessEqualThanVector(sum, state->neededResources[i], state->numberResources)) // Sum > Need[i][]
         {
-            fprintf(stderr, "Error: Petición del proceso %d excede su necesidad declarada.\n", i);
+            fprintf(stderr, "Petición del proceso %d excede su necesidad declarada.\n", i);
             free(sum);
             continue; // Pasar al siguiente proceso
         }
@@ -136,44 +136,35 @@ void simulationResourcesRequest(System* system){
         // Verificar si recursos no están disponibles
         if (!isLessEqualThanVector(Request, state->availableResources, state->numberResources)) // Request > Available
         {
+            fprintf(stderr, "Petición del proceso %d no está disponible.\n", i);
             continue; // Pasar al siguiente proceso
         }
         
         // Simular la asignación
-        State simulatedState = *state; // Copiar el estado actual
-        simulatedState.availableResources = (int *)malloc(state->numberResources * sizeof(int));
-        simulatedState.allocatedResources = (int **)malloc(state->numberProcesses * sizeof(int *));
-        for (int j = 0; j < state->numberResources; j++) {
-            simulatedState.availableResources[j] = state->availableResources[j] - Request[j];
-        }
-        for (int j = 0; j < state->numberProcesses; j++) {
-            simulatedState.allocatedResources[j] = (int *)malloc(state->numberResources * sizeof(int));
-            for (int k = 0; k < state->numberResources; k++) {
-                simulatedState.allocatedResources[j][k] = state->allocatedResources[j][k];
-                if (i == j) {
-                    simulatedState.allocatedResources[j][k] += Request[k];
-                }
-            }
-        }
+        printf("TOFIX: Simular la asignación\n");
+        State *simulatedState = getCopyOfState(state);
+        getDiffOfVectors(simulatedState->availableResources, state->availableResources, Request, state->numberResources); // Available = Available - Request
+        getSumOfVectors(simulatedState->allocatedResources[i], state->allocatedResources[i], Request, state->numberResources); // Allocation[i][] = Allocation[i][] + Request
 
-        if (isStateSafe(&simulatedState)) // Llevar a cabo la asignación en el estado real
+        if (isStateSafe(simulatedState)) // Llevar a cabo la asignación en el estado real
         {
+            printf("TOFIX: Llevar a cabo la asignación en el estado real\n");
             getDiffOfVectors(state->availableResources, state->availableResources, Request, state->numberResources); // Available = Available - Request
             getSumOfVectors(state->allocatedResources[i], state->allocatedResources[i], Request, state->numberResources); // Allocation[i][] = Allocation[i][] + Request
         }
         else
         {
             printf("La asignación al proceso %d llevaría a un estado inseguro. Petición rechazada.\n", i);
-            // Bloquear P_i 
-            // suspenderProceso()
+            // Suspender proceso P_i 
         }
 
         // Liberar la memoria del estado simulado
-        free(simulatedState.availableResources);
-        for (int j = 0; j < state->numberProcesses; j++) {
-            free(simulatedState.allocatedResources[j]);
+        printf("TOFIX: free\n");
+        free(simulatedState->availableResources);
+        for (int i = 0; i < state->numberResources; i++) {
+            free(simulatedState->allocatedResources[i]);
         }
-        free(simulatedState.allocatedResources);
+        free(simulatedState->allocatedResources);
 
         printState(state);
     }
