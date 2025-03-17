@@ -20,6 +20,11 @@ typedef struct
 // @return Puntero al estado actual del sistema
 State *getState(System *system);
 
+// Función para obtener una copia del estado actual del sistema
+// @param state Puntero al estado actual del sistema
+// @return Puntero a la copia del estado actual del sistema
+State *getCopyOfState(State *state);
+
 // Función para verificar si el estado actual del sistema es seguro
 // @param state Puntero al estado actual del sistema
 // @return 1 si es seguro, 0 si no lo es

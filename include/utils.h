@@ -17,7 +17,7 @@ void printMatrix(const char *name, int **matrix, int rows, int cols);
 void printVector(const char *name, int *vector, int size);
 
 // Función para comparar cada entrada de dos vectores fila
-int isLessThanVector(int *vectorA, int *vectorB, int n);
+int isLessEqualThanVector(int *vectorA, int *vectorB, int n);
 
 // Función para obtener un vector que sea la suma entre dos vectores
 void getSumOfVectors(int *vectorSum, int *vectorA, int *vectorB, int n);
