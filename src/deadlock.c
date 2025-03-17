@@ -188,8 +188,7 @@ int isStateSafe(State *state, int *secuence)
 {
     int isSafe = 1;
     int count = 0;
-    int *work = (int *)malloc(state->numberResources * sizeof(int));
-    work = state->availableResources;
+    int *work = state->availableResources;
 
     int *finish = (int *)malloc(state->numberProcesses * sizeof(int));
 
@@ -293,8 +292,8 @@ int handlerDeadlock(State *state)
             exit(EXIT_SUCCESS);
             break;
         case '2':
-            int minPriority = state->processes[0].priority;
-            int minPriorityIndex = 0;
+            int minPriority = -1;
+            int minPriorityIndex = -1;
             for (int i = 0; i < state->numberProcesses; i++)
             {
                 if (state->processes[i].state == 'a' && state->processes[i].priority > minPriority)

@@ -133,12 +133,12 @@ void simulationResourcesRequest(System *system)
     {
         if (state->processes[secuence[i]].state == 'f')
         {
-            printf("P%d Finalizado\n", i);
+            printf("P%d Finalizado\n", secuence[i]);
         }
 
         if (state->processes[secuence[i]].state == 't')
         {
-            printf("P%d Terminado\n", i);
+            printf("P%d Terminado\n", secuence[i]);
         }
     }
     printf("Orden de asignación de recursos:\n");
@@ -146,12 +146,12 @@ void simulationResourcesRequest(System *system)
     {
         if (state->processes[secuence[i]].state == 'f')
         {
-            printf("P%d", i);
+            printf("P%d", secuence[i]);
         }
 
         if (state->processes[secuence[i]].state == 't')
         {
-            printf("P%d Terminado", i);
+            printf("P%d Terminado", secuence[i]);
         }
 
         if (i != state->numberProcesses - 1)
