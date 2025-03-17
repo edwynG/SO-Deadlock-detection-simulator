@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "system.h"
 #include "deadlock.h"
+#include "process.h"
 #include "utils.h"
 
 void loadSystemFromFile(System *system, char *pathFile)
@@ -9,7 +10,7 @@ void loadSystemFromFile(System *system, char *pathFile)
     if (system == NULL || pathFile == NULL)
     {
         fprintf(stderr, "Error: Referencias nulas al cargar el sistema.\n"); // Indica mensaje de error
-        exit(EXIT_FAILURE); // Detiene el programa
+        exit(EXIT_FAILURE);                                                  // Detiene el programa
     }
 
     FILE *file = fopen(pathFile, "r");
@@ -17,7 +18,7 @@ void loadSystemFromFile(System *system, char *pathFile)
     if (file == NULL)
     {
         fprintf(stderr, "Error: No se pudo abrir el archivo.\n"); // Indica mensaje de error
-        exit(EXIT_FAILURE);                                     // Detiene el programa
+        exit(EXIT_FAILURE);                                       // Detiene el programa
     }
 
     // Leer número de recursos (N)
@@ -69,6 +70,7 @@ void loadSystemFromFile(System *system, char *pathFile)
         // Leer prioridad
         fscanf(file, "%d", &system->processes[i].priority);
         system->processes[i].state = 'a'; // Inicializa el estado del proceso como activo
+        system->processes[i].numberResources = system->numberResources;
     }
 
     fclose(file);
@@ -107,66 +109,56 @@ void freeUpMemory(System *system)
     free(system->availableResources);
 }
 
-void simulationResourcesRequest(System *system){
+void simulationResourcesRequest(System *system)
+{
     State *state = getState(system);
-    printSystem(system);  // Imprime el sistema
-    printState(state);    // Imprime estado del sistema
-
-    // Simulacion
+    printState(state);
+    // Este arreglo va a tener el orden de los procesos que se van a ejecutar
+    int *secuence = (int *)malloc(sizeof(int) * state->numberProcesses);
     for (int i = 0; i < state->numberProcesses; i++)
     {
-        printf("TOFIX: Simulando solicitud para el proceso %d:\n", i);
-        
-        // Obtener la petición del proceso
-        int *Request = (int *)malloc(state->numberResources * sizeof(int));
-        getDiffOfVectors(Request, state->neededResources[i], state->allocatedResources[i], state->numberResources);
-        printVector("TOFIX: Petición del proceso", Request, state->numberResources);
-        
-        // Verificar si petición del proceso excede su necesidad declarada
-        int *sum = (int *)malloc(state->numberResources * sizeof(int)); // Sum
-        getSumOfVectors(sum, state->allocatedResources[i], Request, state->numberResources); // Sum = Allocation[i][] + Request
-        if (!isLessEqualThanVector(sum, state->neededResources[i], state->numberResources)) // Sum > Need[i][]
-        {
-            fprintf(stderr, "Petición del proceso %d excede su necesidad declarada.\n", i);
-            free(sum);
-            continue; // Pasar al siguiente proceso
-        }
-        free(sum);
-
-        // Verificar si recursos no están disponibles
-        if (!isLessEqualThanVector(Request, state->availableResources, state->numberResources)) // Request > Available
-        {
-            fprintf(stderr, "Petición del proceso %d no está disponible.\n", i);
-            continue; // Pasar al siguiente proceso
-        }
-        
-        // Simular la asignación
-        printf("TOFIX: Simular la asignación\n");
-        State *simulatedState = getCopyOfState(state);
-        getDiffOfVectors(simulatedState->availableResources, state->availableResources, Request, state->numberResources); // Available = Available - Request
-        getSumOfVectors(simulatedState->allocatedResources[i], state->allocatedResources[i], Request, state->numberResources); // Allocation[i][] = Allocation[i][] + Request
-
-        if (isStateSafe(simulatedState)) // Llevar a cabo la asignación en el estado real
-        {
-            printf("TOFIX: Llevar a cabo la asignación en el estado real\n");
-            getDiffOfVectors(state->availableResources, state->availableResources, Request, state->numberResources); // Available = Available - Request
-            getSumOfVectors(state->allocatedResources[i], state->allocatedResources[i], Request, state->numberResources); // Allocation[i][] = Allocation[i][] + Request
-        }
-        else
-        {
-            printf("La asignación al proceso %d llevaría a un estado inseguro. Petición rechazada.\n", i);
-            // Suspender proceso P_i 
-        }
-
-        // Liberar la memoria del estado simulado
-        printf("TOFIX: free\n");
-        free(simulatedState->availableResources);
-        for (int i = 0; i < state->numberResources; i++) {
-            free(simulatedState->allocatedResources[i]);
-        }
-        free(simulatedState->allocatedResources);
-
-        printState(state);
+        secuence[i] = -1;
     }
-    isStateSafe(state);
+    // Simulacion
+    int isSafe = isStateSafe(state, secuence);
+    
+    for (int i = 0; i < state->numberProcesses; i++)
+    {
+        printf("%d\n", secuence[i]);
+    }
+
+    printf("%s\n", isSafe == 1 ? "Es un estado es seguro" : "Hubo un estado inseguro");
+    printf("Estado de los procesos:\n");
+    for (int i = 0; i < state->numberProcesses; i++)
+    {
+        if (state->processes[secuence[i]].state == 'f')
+        {
+            printf("P%d Finalizado\n", i);
+        }
+
+        if (state->processes[secuence[i]].state == 't')
+        {
+            printf("P%d Terminado\n", i);
+        }
+    }
+    printf("Orden de asignación de recursos:\n");
+    for (int i = 0; i < state->numberProcesses; i++)
+    {
+        if (state->processes[secuence[i]].state == 'f')
+        {
+            printf("P%d", i);
+        }
+
+        if (state->processes[secuence[i]].state == 't')
+        {
+            printf("P%d Terminado", i);
+        }
+
+        if (i != state->numberProcesses - 1)
+        {
+            printf(", ");
+        }
+    }
+    printf("\n");
+    free(secuence);
 }

@@ -47,7 +47,7 @@ void printVector(const char *name, int *vector, int size)
     {
         return;
     }
-    
+
     printf("%s: [", name);
     for (int i = 0; i < size; i++)
     {
@@ -66,7 +66,7 @@ void printMatrix(const char *name, int **matrix, int rows, int cols)
     {
         return;
     }
-    
+
     printf("%s:\n", name);
     for (int i = 0; i < rows; i++)
     {
@@ -104,7 +104,7 @@ int isLessEqualThanVector(int *vectorA, int *vectorB, int n)
 {
     for (int i = 0; i < n; i++)
     {
-        if(vectorA[i] > vectorB[i])
+        if (vectorA[i] > vectorB[i])
         {
             return 0;
         }
@@ -136,4 +136,16 @@ int getSumOfRow(int *vector, int n)
         sum += vector[i];
     }
     return sum;
+}
+
+int all(int *vector, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (vector[i] == 0)
+        {
+            return 0;
+        }
+    }
+    return 1;
 }

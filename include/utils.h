@@ -27,4 +27,8 @@ void getDiffOfVectors(int *vectorDiff, int *vectorA, int *vectorB, int n);
 
 // Función para obtener la suma de todas las entradas de un vector fila
 int getSumOfRow(int *vector, int n);
+
+// Funcion para verificar si en un vector de boleanos todo son 1
+// @param vector Vector de boleanos
+int all(int *vector, int n);
 #endif
