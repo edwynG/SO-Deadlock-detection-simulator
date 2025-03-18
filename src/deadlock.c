@@ -153,7 +153,7 @@ int handlerDeadlock(State *state)
         default:
             break;
         }
-    } while (option != 1 && option != 2);
+    } while (option != '1' && option != '2');
 
     return -1;
 }
