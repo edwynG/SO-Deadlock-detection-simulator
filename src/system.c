@@ -121,7 +121,7 @@ void simulationResourcesRequest(System *system)
     // Simulacion
     int isSafe = isStateSafe(state, secuence);
 
-    printf("%s\n", isSafe == 1 ? "Es un estado es seguro" : "Hubo un estado inseguro");
+    printf("%s\n", isSafe == 1 ? "Es un estado seguro" : "Hubo un estado inseguro");
     printf("Estado de los procesos:\n");
     for (int i = 0; i < state->numberProcesses; i++)
     {

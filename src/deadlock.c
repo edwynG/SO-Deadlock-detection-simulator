@@ -116,7 +116,7 @@ int handlerDeadlock(State *state)
     {
         if (state->processes[i].state == 'a')
         {
-            printf("%d ", i);
+            printf("P%d ", i);
         }
     }
     printf("\n");
