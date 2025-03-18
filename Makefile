@@ -24,6 +24,6 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	gcc $(CFLAGS) -c $< -o $@
 
 execute: $(BINDIR)/$(FILE)
-	./$(BINDIR)/$(FILE) -m d $(NAMEFILE)
+	./$(BINDIR)/$(FILE) $(NAMEFILE)
  
-# Ejecutar: ./bin/prevencion -m d <nombre del archivo>
+# Ejecutar: ./bin/prevencion <nombre del archivo>

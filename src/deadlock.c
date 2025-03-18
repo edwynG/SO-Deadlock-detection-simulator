@@ -85,7 +85,7 @@ int isStateSafe(State *state, int *secuence)
             }
         }
 
-        if (all(finish, state->numberProcesses)) // Verifica si todos los procesos finaizaron
+        if (all(finish, state->numberProcesses)) // Verifica si todos los procesos finalizaron
         {
             break;
         }
@@ -94,14 +94,14 @@ int isStateSafe(State *state, int *secuence)
         int select = handlerDeadlock(state);
         getSumOfVectors(work, work, state->allocatedResources[select], state->numberResources); // Work = Work + Allocation[i][]
         stopProcess(&state->processes[select], 't');
-        finish[select] = 1; // inidica que se detuvo
+        finish[select] = 1; // Indica que se detuvo
         if (secuence != NULL)
         {
-            // orden de ejecución
+            // Orden de ejecución
             secuence[count] = select;
             count++;
         }
-        isSafe = 0; // indica que el estado ha sido inseguro
+        isSafe = 0; // Indica que el estado ha sido inseguro
     } while (1);
 
     return isSafe;
