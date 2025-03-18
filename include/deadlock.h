@@ -23,6 +23,7 @@ State *getState(System *system);
 
 // Función para verificar si el estado actual del sistema es seguro
 // @param state Puntero al estado actual del sistema
+// @param secuence Puntero a la secuencia de ejecución
 // @return 1 si es seguro, 0 si no lo es
 // Estado seguro: hay al menos una secuencia de asignación de recursos a los procesos que no implica un interbloqueo. Alguno de los procesos puede ejecutarse por completo con los recursos disponibles
 int isStateSafe(State *state, int *secuence);

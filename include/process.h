@@ -13,7 +13,7 @@ typedef struct
     char state;              // 'a' activo | 't' terminado | 'f' finalizado
 } Process;
 
-// Funcion para deteneder un proceso
+// Función para detener un proceso
 // @param process Puntero al proceso
 // @param state Estado del proceso 't' terminado | 'f' finalizado
 void stopProcess(Process *process, char state);

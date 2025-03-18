@@ -74,7 +74,7 @@ int isStateSafe(State *state, int *secuence)
 
                 if (secuence != NULL)
                 {
-                    // orden de ejecución
+                    // Orden de ejecución
                     secuence[count] = foundProcess;
                     count++;
                 }
