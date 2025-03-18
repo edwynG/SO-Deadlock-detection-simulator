@@ -133,6 +133,7 @@ int handlerDeadlock(State *state)
         printf("1: Finalizar simulación\n");
         printf("2: Terminar proceso con menor prioridad\n");
         scanf("%c", &option);
+        getchar();
         switch (option)
         {
         case '1':

@@ -7,7 +7,7 @@ SOURCE = $(wildcard $(SRCDIR)/*.c) # Lista de achivos fuentes
 OBJ = $(SOURCE:$(SRCDIR)/%.c=$(OBJDIR)/%.o) # Aplica un map en SOURCE y crea archivos objetos
 
 FILE = prevencion
-NAMEFILE = "tests/caso2.txt"
+NAMEFILE = "tests/caso4.txt"
 
 all: prepare $(BINDIR)/$(FILE)
 
